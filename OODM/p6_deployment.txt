@@ -1,0 +1,35 @@
+@startuml
+' ===========================================
+' Deployment Diagram - Telephone System
+' ===========================================
+
+node "User Telephone Device" {
+    artifact "User Interface Module" as UI
+    artifact "Dialer App" as DA
+}
+
+node "Telephone Exchange Server" {
+    artifact "Call Manager" as CM
+    artifact "Line Manager" as LM
+    artifact "Voicemail Service" as VS
+}
+
+node "Billing Server" {
+    artifact "Billing System" as BS
+}
+
+node "Database Server" {
+    database "Telephone Database" as DB
+}
+
+' ======= Communication Links =======
+UI --> CM : Initiate / End Call
+DA --> LM : Line Signal Communication
+CM --> LM : Call Routing & Connection
+CM --> VS : Forward Unanswered Calls
+CM --> BS : Send Call Records
+BS --> DB : Store Billing Info
+VS --> DB : Store Voicemail Messages
+LM --> DB : Update Line Status
+
+@enduml

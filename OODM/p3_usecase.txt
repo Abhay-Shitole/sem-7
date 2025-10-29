@@ -1,0 +1,25 @@
+@startuml
+' ===========================
+' Telephone System Use Case
+' ===========================
+
+actor "User" as U
+actor "Receiver" as R
+
+rectangle "Telephone System" {
+    usecase "Make Call" as UC1
+    usecase "Receive Call" as UC2
+    usecase "End Call" as UC3
+    usecase "Check Line Status" as UC4
+}
+
+U --> UC1
+R --> UC2
+U --> UC3
+R --> UC3
+U --> UC4
+
+UC1 --> UC2 : <<include>>
+UC2 --> UC3 : <<extend>>
+
+@enduml

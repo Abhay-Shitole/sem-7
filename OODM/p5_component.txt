@@ -1,0 +1,53 @@
+@startuml
+' ============================================
+' Component Diagram - Telephone System
+' ============================================
+
+rectangle "Telephone System" {
+    
+    [User Interface] as UI
+    [Call Manager] as CM
+    [Line Manager] as LM
+    [Billing System] as BS
+    [Voicemail Service] as VS
+    [Database] as DB
+}
+
+' ======= Relationships =======
+UI --> CM : initiate / end call
+CM --> LM : request line connection
+CM --> BS : send call duration for billing
+CM --> VS : forward to voicemail (if no answer)
+LM --> DB : update line status
+BS --> DB : store billing info
+VS --> DB : store/retrieve messages
+
+' ======= Reusability Markers =======
+note top of CM
+<< Reused Component >>
+Handles call setup, routing,
+and teardown logic
+end note
+
+note top of LM
+<< Reused Component >>
+Manages telephone line connections
+and signals
+end note
+
+note top of BS
+<< Reused Component >>
+Existing telecom billing module
+end note
+
+note right of UI
+<< New Component >>
+Provides user interaction (make/receive calls)
+end note
+
+note bottom of VS
+<< New Component >>
+Handles missed calls and voicemail storage
+end note
+
+@enduml

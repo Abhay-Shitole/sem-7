@@ -1,0 +1,14 @@
+@startuml
+[*] --> Idle : Power On
+
+Idle --> DialTone : Lift Receiver
+DialTone --> Dialing : Start Dialing Number
+Dialing --> Ringing : Number Dialed (Valid)
+Dialing --> Busy : Number Dialed (Busy Line)
+Ringing --> Connected : Call Answered
+Connected --> OnHook : Hang Up
+Busy --> OnHook : Hang Up
+Ringing --> OnHook : Caller Hangs Up
+OnHook --> Idle : Return to Idle State
+
+@enduml

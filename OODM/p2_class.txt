@@ -1,0 +1,45 @@
+@startuml
+' ===============================
+' Telephone System Class Diagram
+' ===============================
+
+class TelephoneLine {
+    - lineNumber : String
+    - status : String
+    + connect() : void
+    + disconnect() : void
+}
+
+class Telephone {
+    - phoneNumber : String
+    - model : String
+    + dial(number : String) : void
+    + answer() : void
+    + hangUp() : void
+}
+
+class Call {
+    - callID : int
+    - duration : int
+    - status : String
+    + startCall() : void
+    + endCall() : void
+}
+
+class User {
+    - name : String
+    - address : String
+    + makeCall(phone : Telephone, number : String) : void
+    + receiveCall(call : Call) : void
+}
+
+' ===============================
+' Relationships
+' ===============================
+
+User "1" -- "1..*" Telephone : owns >
+Telephone "1" -- "1" TelephoneLine : uses >
+Telephone "1" --> "0..*" Call : initiates >
+Call "1" --> "2" Telephone : connects >
+
+@enduml

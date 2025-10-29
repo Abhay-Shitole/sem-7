@@ -1,0 +1,42 @@
+@startuml
+' ======================================
+' Activity Diagram - Telephone Call Flow
+' ======================================
+
+start
+
+:Lift Receiver;
+:Check Line Status;
+
+if (Line is Free?) then (Yes)
+    :Provide Dial Tone;
+    :Dial Number;
+
+    if (Number Valid?) then (Yes)
+        :Send Call to Receiver;
+        :Start Ringing;
+        
+        if (Receiver Answers?) then (Yes)
+            :Establish Connection;
+            :Start Conversation;
+            :End Conversation;
+            :Hang Up;
+        else (No)
+            :Rings Timeout;
+            :Show "No Answer";
+            :Hang Up;
+        endif
+    else (No)
+        :Play "Invalid Number" Tone;
+        :Hang Up;
+    endif
+
+else (No)
+    :Play "Busy" Tone;
+    :Hang Up;
+endif
+
+:Return to Idle State;
+stop
+
+@enduml
