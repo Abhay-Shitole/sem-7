@@ -1,0 +1,116 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct Item {
+    int value, weight;
+};
+
+// Function to compare items based on value/weight ratio
+bool compare(Item a, Item b) {
+    double r1 = (double)a.value / a.weight;
+    double r2 = (double)b.value / b.weight;
+    return r1 > r2;  // Sort in decreasing order
+}
+
+double fractionalKnapsack(int W, Item arr[], int n) {
+    // Step 1: Sort items by value/weight ratio
+    sort(arr, arr + n, compare);
+
+    double finalValue = 0.0;  // Total value in knapsack
+
+    for (int i = 0; i < n; i++) {
+        // If item fits completely
+        if (arr[i].weight <= W) {
+            W -= arr[i].weight;
+            finalValue += arr[i].value;
+        } 
+        // If item doesn't fit completely
+        else {
+            finalValue += arr[i].value * ((double)W / arr[i].weight);
+            break;  // Knapsack is full
+        }
+    }
+
+    return finalValue;
+}
+
+int main() {
+    int n, W;
+    cout << "Enter number of items: ";
+    cin >> n;
+
+    Item arr[n];
+    cout << "Enter value and weight of each item:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i].value >> arr[i].weight;
+    }
+
+    cout << "Enter capacity of knapsack: ";
+    cin >> W;
+
+    double maxValue = fractionalKnapsack(W, arr, n);
+
+    cout << "\nMaximum value in Knapsack = " << maxValue << endl;
+
+    return 0;
+}
+/* Theory
+1️⃣ Problem Statement
+
+You are given:
+
+A set of items, each with:
+
+Weight (wᵢ)
+
+Value (vᵢ)
+
+A knapsack with a maximum capacity W.
+
+✅ Goal:
+Fill the knapsack such that total value is maximized without exceeding its capacity.
+
+🧩 Special Condition (Fractional):
+We can take fractions of an item.
+For example, if an item weighs 10 kg and you can only fit 5 kg, you can take half of it.
+
+2️⃣ Greedy Strategy
+
+To maximize value:
+
+Compute value/weight ratio for each item → vi/wi
+
+Sort items in decreasing order of ratio.
+
+Take items one by one:
+
+If the whole item fits, take it.
+
+Otherwise, take the fraction that fits in the remaining capacity.
+
+3️⃣ Example
+Item	  Value (v)	Weight (w)	v/w Ratio
+1	    60	           10	           6
+2	   100	           20	           5
+3	   120	          30	           4
+
+Capacity (W) = 50
+
+Greedy choice:
+
+Take all of item 1 (10 kg)
+
+Take all of item 2 (20 kg)
+
+Take 2/3 of item 3 (20 out of 30 kg)
+
+✅ Maximum Value = 60 + 100 + (120 × 20/30) = 240
+
+4️⃣ Time Complexity
+
+Sorting → O(n log n)
+
+Selecting items → O(n)
+
+✅ Overall: O(n log n) */

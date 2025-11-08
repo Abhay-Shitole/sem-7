@@ -1,0 +1,82 @@
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to calculate C(n, k) using Dynamic Programming
+int binomialCoeff(int n, int k) {
+    vector<vector<int>> C(n + 1, vector<int>(k + 1, 0));
+
+    // Calculate value of Binomial Coefficient in bottom-up manner
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= min(i, k); j++) {
+            // Base Cases
+            if (j == 0 || j == i)
+                C[i][j] = 1;
+            else
+                // Recurrence Relation
+                C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+        }
+    }
+
+    // Print DP table (optional for understanding)
+    cout << "\nDP Table:\n";
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= min(i, k); j++)
+            cout << C[i][j] << "\t";
+        cout << endl;
+    }
+
+    return C[n][k];
+}
+
+int main() {
+    int n, k;
+    cout << "Enter n and k: ";
+    cin >> n >> k;
+
+    cout << "Value of C(" << n << ", " << k << ") is " << binomialCoeff(n, k) << endl;
+    return 0;
+}
+
+
+
+/*BINOMIAL COEFFICIENTS USING DYNAMIC PROGRAMMING
+===============================================
+
+THEORY
+-------
+Problem Statement:
+------------------
+The binomial coefficient C(n, k) represents the number of ways to choose 'k' items from 'n' items without considering order.
+It is also known as "n choose k" and defined mathematically as:
+
+    C(n, k) = n! / (k! * (n - k)!)
+
+For example:
+    C(5, 2) = 10
+
+Dynamic Programming Approach:
+------------------------------
+The recursive relation for computing binomial coefficients is:
+
+    C(n, k) = C(n-1, k-1) + C(n-1, k)
+
+Base Conditions:
+-----------------
+    C(n, 0) = C(n, n) = 1
+
+Dynamic programming is used to store previously computed results to avoid redundant calculations.
+
+Example of Pascal's Triangle:
+-----------------------------
+C(0,0)
+C(1,0) C(1,1)
+C(2,0) C(2,1) C(2,2)
+C(3,0) C(3,1) C(3,2) C(3,3)
+
+From this pattern, each element is the sum of the two above it.
+
+Time Complexity: O(n * k)
+Space Complexity: O(n * k)*/

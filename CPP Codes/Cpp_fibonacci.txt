@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter the number of terms: ";
+    cin >> n;
+
+    long long a = 0, b = 1, next;
+    int stepCount = 0;
+
+    cout << "Fibonacci Series: ";
+
+    // Base cases
+    if (n >= 1) {
+        cout << a << " ";
+        stepCount++; // printing step
+    }
+    if (n >= 2) {
+        cout << b << " ";
+        stepCount++; // printing step
+    }
+
+    // Iterative Fibonacci
+    for (int i = 3; i <= n; i++) {
+        next = a + b;       // 1 addition
+        a = b;              // 1 assignment
+        b = next;           // 1 assignment
+        cout << next << " ";
+        stepCount += 3;     // count 3 operations
+    }
+
+    cout << "\nTotal Step Count: " << stepCount << endl;
+    return 0;
+}
+
+/* What is Fibonacci Series?
+
+The Fibonacci series is a sequence of numbers in which each number is the sum of the two preceding ones.
+
+F(n)=F(n−1)+F(n−2)
+
+with
+
+F(0)=0,F(1)=1
+
+So, the series goes:
+0, 1, 1, 2, 3, 5, 8, 13, 21, …
+
+2️⃣ How to Compute Fibonacci Numbers
+
+There are two main ways:
+
+Recursive method – directly implements the mathematical definition.
+
+Iterative method – uses a loop (faster and less memory).
+
+We’ll use the iterative method, since it’s easy to trace step count.
+
+3️⃣ Step Count Analysis
+
+Let’s define step count as the number of basic operations (like additions and assignments) executed by the algorithm.
+
+For each loop iteration, we:
+
+perform 1 addition (a + b)
+
+perform 2 assignments (a = b, b = next)
+
+So, 3 steps per iteration approximately.
+If there are n iterations → Total Steps ≈ 3n */

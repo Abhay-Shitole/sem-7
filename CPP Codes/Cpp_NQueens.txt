@@ -1,0 +1,125 @@
+
+
+
+
+#include <iostream>
+using namespace std;
+
+#define N 8
+
+// Function to print the board
+void printSolution(int board[N][N]) {
+    cout << "\nFinal 8-Queens Solution:\n";
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+            cout << (board[i][j] ? "Q " : ". ");
+        cout << endl;
+    }
+}
+
+// Function to check if a queen can be placed on board[row][col]
+bool isSafe(int board[N][N], int row, int col) {
+    int i, j;
+
+    // Check this column on upper side
+    for (i = 0; i < row; i++)
+        if (board[i][col])
+            return false;
+
+    // Check upper diagonal on left side
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+        if (board[i][j])
+            return false;
+
+    // Check upper diagonal on right side
+    for (i = row, j = col; i >= 0 && j < N; i--, j++)
+        if (board[i][j])
+            return false;
+
+    return true;
+}
+
+// Recursive utility function to solve 8-Queens problem
+bool solveNQUtil(int board[N][N], int row) {
+    // Base case: if all queens are placed
+    if (row >= N)
+        return true;
+
+    // Try placing this queen in all columns of this row
+    for (int col = 0; col < N; col++) {
+        if (isSafe(board, row, col)) {
+            board[row][col] = 1; // Place queen
+
+            // Recur to place rest of the queens
+            if (solveNQUtil(board, row + 1))
+                return true;
+
+            // If placing queen doesn't lead to a solution, backtrack
+            board[row][col] = 0;
+        }
+    }
+
+    return false; // No valid placement found
+}
+
+// Function to solve the 8-Queens problem
+bool solveNQ() {
+    int board[N][N] = {0};
+
+    // Place first queen manually (for example, first row, first column)
+    board[0][0] = 1;
+
+    if (!solveNQUtil(board, 1)) { // Start solving from the 2nd row
+        cout << "Solution does not exist";
+        return false;
+    }
+
+    printSolution(board);
+    return true;
+}
+
+// Main function
+int main() {
+    solveNQ();
+    return 0;
+}
+
+/*8-QUEENS PROBLEM USING BACKTRACKING
+===================================
+
+THEORY
+-------
+Problem Statement:
+------------------
+The 8-Queens problem is a classic example of the backtracking algorithm.
+The task is to place 8 queens on a chessboard such that no two queens attack each other.
+This means that no two queens can be in the same row, column, or diagonal.
+
+We begin with one queen already placed in the first row, and we use backtracking to place the remaining queens.
+
+Concept of Backtracking:
+-------------------------
+Backtracking is a method used to solve constraint satisfaction problems.
+It incrementally builds candidates to the solution and abandons (“backtracks”) a candidate as soon as it determines that the candidate cannot possibly lead to a valid solution.
+
+Algorithm Steps:
+-----------------
+1. Start with an empty 8x8 chessboard.
+2. Place the first queen in a fixed position (for example, in the first column of the first row).
+3. Try to place the next queen in a safe column of the next row.
+4. If a safe position is found, place the queen and move to the next row.
+5. If no safe position exists, backtrack to the previous row and move the queen to the next possible position.
+6. Continue until all 8 queens are placed safely.
+7. Print the board configuration.
+
+Safety Check:
+---------------
+A queen can be attacked if another queen exists:
+- In the same column
+- On the same diagonal (left or right)
+
+Time Complexity:
+----------------
+O(N!) for N queens (N = 8 here)
+Space Complexity: O(N^2)*/
+
